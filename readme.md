@@ -1,7 +1,7 @@
 The FormBuilder Model package.
 =
 
-This package is a part of FormBuilder technology powered by [StartappStudio](https://www.startapp.studio).
+This package is a part of FormBuilder technology powered by [Startapp.studio](https://www.startapp.studio).
 
 The model is a hierarchical representation of the DOM as JSON. Includes a visitor design pattern that allows you to change the representation of the model.
 
