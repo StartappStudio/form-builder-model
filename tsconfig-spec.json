@@ -1,0 +1,23 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./spec",
+    "sourceMap": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": ["jasmine"],
+    "lib": [
+      "dom",
+      "es2015"
+    ]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist/**/*"]
+}

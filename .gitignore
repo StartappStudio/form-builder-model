@@ -1,0 +1,10 @@
+node_modules/
+spec/
+
+**/*.js
+**/*.js.map
+**/*.d.ts
+
+!dist/**/*.d.ts
+dist/**/*.spec.d.ts
+!rollup.config.js

@@ -1,0 +1,32 @@
+{
+  "name": "@startapp/form-builder-model",
+  "version": "1.0.0",
+  "description": "The Startapp.Studio FormBuilder model",
+  "main": "dist/form-model.esm",
+  "module": "dist/form-model.esm",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build:package": "npx rollup -c",
+    "build:test": "npx typescript -p ./tsconfig-spec.json",
+    "test": "npm run build:test && npx jasmine --config=jasmine.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StartappStudio/form-builder-model.git"
+  },
+  "keywords": [
+    "startapp",
+    "formbuilder"
+  ],
+  "author": "Andrey Gromozdov",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jasmine": "^3.3.9",
+    "jasmine": "^3.3.1",
+    "remove": "^0.1.5",
+    "rollup": "^1.4.1",
+    "rollup-plugin-typescript2": "^0.19.3",
+    "typescript": "^3.3.3333"
+  }
+}

@@ -1,0 +1,95 @@
+class InternalModelVisitor {
+    constructor() {
+        this.modelMap = new Map();
+        this.parents = [];
+    }
+    visitComponent(component) {
+        this.parents.push(component);
+        return this;
+    }
+    visitChildComponent(propertyName, component) {
+        this.modelMap.set(component, this.parents[this.parents.length - 1]);
+        return this;
+    }
+    leaveComponent() {
+        this.parents.pop();
+    }
+}
+
+class FormModel {
+    constructor(model, childrenResolver, propsName = 'props') {
+        this.model = model;
+        this.childrenResolver = childrenResolver;
+        this.propsName = propsName;
+        this.modelMap = new Map();
+        if (model) {
+            this.makeModelMap();
+        }
+    }
+    accept(visitor) {
+        this.acceptInternal(this.model, visitor);
+    }
+    insert(src, parent) {
+        const components = this.childrenResolver(parent);
+        if (components && components.length) {
+            const container = parent[this.propsName][components[0].property];
+            if (Array.isArray(container)) {
+                container.push(src);
+            }
+            else {
+                throw Error(`Component '${parent.name} can not accept an insert operation`);
+            }
+        }
+    }
+    remove(ref) {
+        const parent = this.findParentModel(ref);
+        const components = this.childrenResolver(parent);
+        components.forEach((component) => {
+            const container = parent[this.propsName][component.property];
+            if (Array.isArray(container)) {
+                for (let i = 0; i < container.length; i++) {
+                    const c = container[i];
+                    if (c === ref) {
+                        container.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+        });
+    }
+    commit() {
+        this.makeModelMap();
+    }
+    makeModelMap() {
+        const internalModelVisitor = new InternalModelVisitor();
+        this.accept(internalModelVisitor);
+        this.modelMap = internalModelVisitor.modelMap;
+    }
+    acceptInternal(model, visitor) {
+        const nodeVisitor = visitor.visitComponent(model);
+        const components = this.childrenResolver(model);
+        components.forEach((childDescriptor) => {
+            if (Array.isArray(childDescriptor.model)) {
+                childDescriptor.model.forEach((childModel) => {
+                    const childVisitor = nodeVisitor.visitChildComponent(childDescriptor.property, childModel);
+                    this.acceptInternal(childModel, childVisitor);
+                });
+            }
+            else {
+                const childVisitor = nodeVisitor.visitChildComponent(childDescriptor.property, childDescriptor.model);
+                this.acceptInternal(childDescriptor.model, childVisitor);
+            }
+        });
+        visitor.leaveComponent(model);
+    }
+    findParentModel(ref) {
+        if (this.modelMap.has(ref)) {
+            return this.modelMap.get(ref);
+        }
+        else {
+            throw Error(`The model reference does not found`);
+        }
+    }
+}
+
+export { FormModel };
