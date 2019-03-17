@@ -15,10 +15,8 @@ interface IModel {
 }
 ```
 
-- name is a form name
-- props is a object with component'attributes and their values
-
-
+- Name is a form component’s name
+- Props is an object with a component's attributes and their values
 
 An example that shows how a model might look.
 ```json
