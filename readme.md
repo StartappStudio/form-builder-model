@@ -18,6 +18,8 @@ interface IModel {
 - The name is a component name of a form.
 - Props is an object with a component's attributes and their values.
 
+
+
 An example that shows how a model might look.
 ```json
 {
