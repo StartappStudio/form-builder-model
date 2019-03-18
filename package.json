@@ -1,5 +1,5 @@
 {
-  "name": "@startapp/form-builder-model",
+  "name": "@start-app/form-builder-model",
   "version": "1.0.0",
   "description": "The Startapp.Studio FormBuilder model",
   "main": "dist/form-model.esm",
