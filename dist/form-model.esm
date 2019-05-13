@@ -40,6 +40,12 @@ class FormModel {
                 throw Error(`Component '${parent.name} can not accept an insert operation`);
             }
         }
+        else {
+            const owner = this.findParentModel(parent);
+            if (owner) {
+                this.insert(src, owner);
+            }
+        }
     }
     remove(ref) {
         const parent = this.findParentModel(ref);

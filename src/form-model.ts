@@ -25,6 +25,11 @@ export class FormModel implements IFormModel {
             } else {
                 throw Error(`Component '${parent.name} can not accept an insert operation`);
             }
+        } else {
+            const owner = this.findParentModel(parent);
+            if (owner) {
+                this.insert(src, owner);
+            }
         }
     }
 
