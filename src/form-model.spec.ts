@@ -43,13 +43,17 @@ describe('model tests', () => {
         });
     });
 
-    describe('insert at not container', () => {
+    describe('insert between components', () => {
         let model: FormModel;
         beforeEach(() => {
             model = new FormModel({
                 name: 'container',
                 props: {
                     components: [
+                        {
+                            name: 'button',
+                            props: {}
+                        },
                         {
                             name: 'button',
                             props: {}
@@ -68,8 +72,33 @@ describe('model tests', () => {
             };
 
             model.insert(src, model.model.props.components[0]);
-            expect(model.model.props.components.length).toBe(2);
+            expect(model.model.props.components.length).toBe(3);
         });
+
+        it('should insert object between', () => {
+            const src: IModel = {
+                name: 'container',
+                props: {
+                    components: []
+                }
+            };
+
+            model.insert(src, model.model.props.components[0]);
+            expect(model.model.props.components[1].name).toBe('container');
+        });
+
+        it('should insert object to end', () => {
+            const src: IModel = {
+                name: 'container',
+                props: {
+                    components: []
+                }
+            };
+
+            model.insert(src, model.model.props.components[model.model.props.components.length - 1]);
+            expect(model.model.props.components[model.model.props.components.length - 1].name).toBe('container');
+        });
+
     });
 
     describe('remove', () => {

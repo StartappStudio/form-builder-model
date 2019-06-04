@@ -28,7 +28,12 @@ export class FormModel implements IFormModel {
         } else {
             const owner = this.findParentModel(parent);
             if (owner) {
-                this.insert(src, owner);
+                const ownerProps = owner[this.propsName];
+                if (ownerProps.components) {
+                    this.insertAt(src, owner, parent);
+                } else {
+                    this.insert(src, owner);
+                }
             }
         }
     }
@@ -53,6 +58,17 @@ export class FormModel implements IFormModel {
 
     public commit(): void {
         this.makeModelMap();
+    }
+
+    private insertAt(src: IModel, parent: IModel, indexModel: IModel) {
+        const components = this.childrenResolver(parent);
+        if (components && components.length) {
+            const container = parent[this.propsName][components[0].property];
+            if (Array.isArray(container)) {
+                const index = container.indexOf(indexModel);
+                container.splice(index + 1, 0, src);
+            }
+        }
     }
 
     private makeModelMap(): void {

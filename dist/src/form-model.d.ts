@@ -10,6 +10,7 @@ export declare class FormModel implements IFormModel {
     insert(src: IModel, parent: IModel): void;
     remove(ref: IModel): void;
     commit(): void;
+    private insertAt;
     private makeModelMap;
     private acceptInternal;
     private findParentModel;
